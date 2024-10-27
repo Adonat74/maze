@@ -1,18 +1,29 @@
 <script setup lang="js">
 import mazeList from "../resources/mazes.json"
+import CellClass from "./cell/Cell.js";
 import Cell from "./cell/Cell.vue"
+import {solveMaze} from "../solvers/mazeSolver.js";
 import { onMounted, ref, computed } from 'vue'
 
 
 const { size, version } = defineProps(['size', 'version'])
 
-const maze = ref([]);
+const cells = ref([]);
 const cellSize = 30;
 
-function loadMaze() {
-    maze.value = mazeList[size][`ex-${version}`];
+function loadMaze(cellsList) {
+    cells.value = [];
+    for (let i = 0; i < cellsList.length; i++) {
+        cells.value.push(new CellClass(
+            cellsList[i].posX,
+            cellsList[i].posY,
+            cellsList[i].walls,
+            cellsList[i].entrance,
+            cellsList[i].exit
+        ));
+    }
+    solveMaze(cells.value);
 }
-onMounted(() => loadMaze());
 
 const boardDimensions = computed(() => {
     return {
@@ -20,6 +31,16 @@ const boardDimensions = computed(() => {
         height: `${cellSize*size}px`
     };
 });
+
+
+
+
+
+
+
+
+
+onMounted(() => loadMaze(mazeList[size][`ex-${version}`]));
 </script>
 
 
@@ -27,11 +48,11 @@ const boardDimensions = computed(() => {
     <div class="boardContainer">
         <div class="boardFlex" :style="boardDimensions">
             <Cell class="cell"
-                  v-for="cell in maze"
+                  v-for="cell in cells"
                   :cell="cell"
                   :cellSize="cellSize"
                   :key="`${cell.posX}-${cell.posY}`"
-                  :style="{ width: `${cellSize}px`, height: `${cellSize}px`, top: `${cellSize*cell.posX}px`, left: `${cellSize*cell.posY}px`}"
+                  :style="{ width: `${cellSize}px`, height: `${cellSize}px`, top: `${cellSize*cell.getX}px`, left: `${cellSize*cell.getY}px`}"
             ></Cell>
         </div>
     </div>
@@ -54,6 +75,4 @@ const boardDimensions = computed(() => {
 .cell {
     position: absolute;
 }
-
-
 </style>

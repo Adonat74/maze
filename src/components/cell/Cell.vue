@@ -4,22 +4,28 @@ const { cell, cellSize } = defineProps(['cell', 'cellSize'])
 
 function wallsRender () {
     let{ top, right, bottom, left} = 0;
-    let color = 'ghostwhite'
-    if (cell.entrance) {
+    let color = 'ghostwhite';
+    if (cell.getCurrentCell) {
+        color = 'orange';
+    } else if (cell.getVisited) {
+        color = 'blue';
+    }
+    if (cell.getEntrance) {
         color = 'green';
-    } else if (cell.exit) {
+    } else if (cell.getExit) {
         color = 'red';
     }
-    if(cell.walls[0]){
+
+    if(cell.getWalls[0]){
         top = 2;
     }
-    if(cell.walls[1]){
+    if(cell.getWalls[1]){
         right = 2;
     }
-    if(cell.walls[2]){
+    if(cell.getWalls[2]){
         bottom = 2;
     }
-    if(cell.walls[3]){
+    if(cell.getWalls[3]){
         left = 2;
     }
     return {

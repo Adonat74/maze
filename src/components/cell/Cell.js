@@ -1,4 +1,4 @@
-export default class Cell {
+export default class CellClass {
     constructor(x, y, walls, entrance = false, exit = false) {
         this._x = x;
         this._y = y;
@@ -13,7 +13,6 @@ export default class Cell {
     get getX() {
         return this._x;
     }
-
     set setX(value) {
         this._x = value;
     }
@@ -22,7 +21,6 @@ export default class Cell {
     get getY() {
         return this._y;
     }
-
     set setY(value) {
         this._y = value;
     }
@@ -31,7 +29,6 @@ export default class Cell {
     get getWalls() {
         return this._walls;
     }
-
     set setWalls(value) {
         this._walls = value;
     }
@@ -40,7 +37,6 @@ export default class Cell {
     get getEntrance() {
         return this._entrance;
     }
-
     set setEntrance(value) {
         this._entrance = value;
     }
@@ -49,7 +45,6 @@ export default class Cell {
     get getExit() {
         return this._exit;
     }
-
     set setExit(value) {
         this._exit = value;
     }
@@ -58,7 +53,6 @@ export default class Cell {
     get getVisited() {
         return this._visited;
     }
-
     set setVisited(value) {
         this._visited = value;
     }
@@ -67,7 +61,6 @@ export default class Cell {
     get getCurrentCell() {
         return this._currentCell;
     }
-
     set setCurrentCell(value) {
         this._currentCell = value;
     }
