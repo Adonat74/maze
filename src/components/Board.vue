@@ -15,8 +15,8 @@ function loadMaze(cellsList) {
     cells.value = [];
     for (let i = 0; i < cellsList.length; i++) {
         cells.value.push(new CellClass(
-            cellsList[i].posX,
             cellsList[i].posY,
+            cellsList[i].posX,
             cellsList[i].walls,
             cellsList[i].entrance,
             cellsList[i].exit
@@ -52,7 +52,7 @@ onMounted(() => loadMaze(mazeList[size][`ex-${version}`]));
                   :cell="cell"
                   :cellSize="cellSize"
                   :key="`${cell.posX}-${cell.posY}`"
-                  :style="{ width: `${cellSize}px`, height: `${cellSize}px`, top: `${cellSize*cell.getX}px`, left: `${cellSize*cell.getY}px`}"
+                  :style="{ width: `${cellSize}px`, height: `${cellSize}px`, top: `${cellSize*cell.getY}px`, left: `${cellSize*cell.getX}px`}"
             ></Cell>
         </div>
     </div>

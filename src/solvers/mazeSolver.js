@@ -14,54 +14,101 @@ export async function solveMaze(maze) {
 
 
     while(currentCell && !exitCell.getCurrentCell) {
-
-        console.log('turn');
-        await delay(1000);
-
-        if (!currentCell.getWalls[0]) {
-            changeCurrentCell(0);
-        } else if (!currentCell.getWalls[1]) {
-            changeCurrentCell(1);
-        } else if (!currentCell.getWalls[2]) {
-            changeCurrentCell(2);
-        } else if (!currentCell.getWalls[3]) {
-            changeCurrentCell(3);
-        }
         currentCell = getCurrent();
+
+        await delay(1000);
+        console.log('turn');
+        changeCurrentCell();
     }
 
 
 
+    function changeCurrentCell() {
+
+        const oldCurrent = getCurrent();
+
+        const pathNumber = getPathNumber();
 
 
-    // for (let i = 1; i < maze.length; i++) {
-    //     maze[i-1].setCurrentCell = false;
-    //     maze[i].setCurrentCell = true;
-    //     maze[i].setVisited = true;
-    //
-    // }
 
-    function changeCurrentCell(dir) {
-        let oldCurrent = getCurrent();
-
-        if (dir === 0) {
-            currentCell = maze.find(cell => cell.getY === oldCurrent.getY-1);
-        } else if (dir === 1) {
-            currentCell = maze.find(cell => cell.getX === oldCurrent.getX+1);
-        } else if (dir === 2) {
-            currentCell = maze.find(cell => cell.getY === oldCurrent.getY+1);
-        } else if (dir === 3) {
-            currentCell = maze.find(cell => cell.getX === oldCurrent.getX-1);
+        if (pathNumber === 1) {
+            if (!currentCell.getWalls[0]) {
+                goNorth(oldCurrent);
+            } else if (!currentCell.getWalls[1]) {
+                goEast(oldCurrent);
+            } else if (!currentCell.getWalls[2]) {
+                goSouth(oldCurrent);
+            } else if (!currentCell.getWalls[3]) {
+                goWest(oldCurrent);
+            }
+        } else if (pathNumber === 2) {
+            if (currentCell.getY > 0 && !currentCell.getWalls[0] && !getNorthCell().getVisited) {
+                goNorth(oldCurrent);
+            } else if (currentCell.getX < maze.length/3-1 && !currentCell.getWalls[1] && !getEastCell().getVisited) {
+                goEast(oldCurrent);
+            } else if (currentCell.getY < maze.length/3-1 && !currentCell.getWalls[2] && !getSouthCell().getVisited) {
+                goSouth(oldCurrent);
+            } else if (currentCell.getX > 0 && !currentCell.getWalls[3] && !getWestCell().getVisited) {
+                goWest(oldCurrent);
+            }
         }
 
+
+
         currentCell.setVisited = true;
+
         oldCurrent.setCurrentCell = false;
+
+
         currentCell.setCurrentCell = true;
     }
 
 
 
 
+
+    function getPathNumber() {
+        let count = 0;
+        for (let i = 0; i < currentCell.getWalls.length; i++) {
+            if (!currentCell.getWalls[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    function getNorthCell() {
+        return maze.find(cell => cell.getY === currentCell.getY-1);
+    }
+    function getEastCell() {
+        return maze.find(cell => cell.getX === currentCell.getX+1);
+    }
+    function getSouthCell() {
+        return maze.find(cell => cell.getY === currentCell.getY+1);
+    }
+    function getWestCell() {
+        return maze.find(cell => cell.getX === currentCell.getX-1);
+    }
+
+
+
+    function goNorth (oldCurrent) {
+        console.log("north");
+        currentCell = maze.find(cell => cell.getY === oldCurrent.getY-1);
+    }
+    function goEast (oldCurrent) {
+        console.log("east");
+        currentCell = maze.find(cell => cell.getX === oldCurrent.getX+1);
+    }
+    function goSouth (oldCurrent) {
+        console.log("south");
+        currentCell = maze.find(cell => cell.getY === oldCurrent.getY+1);
+    }
+    function goWest (oldCurrent) {
+        console.log("west");
+        currentCell = maze.find(cell => cell.getX === oldCurrent.getX-1);
+    }
 
 
     function getCurrent() {
